@@ -1,0 +1,48 @@
+@php
+    $currentPath = request()->path();
+    $pathParts = array_filter(explode('/', $currentPath));
+
+    $customLabels = [
+        'admin' => 'Dashboard',
+        'singers' => 'Cantores',  // Alterado de 'users' para 'singers'
+        'edit' => 'Editar',
+        'create' => 'Cadastrar',
+    ];
+
+    $breadcrumbLinks = [];
+    $currentUrl = '';
+
+    foreach ($pathParts as $part) {
+        $currentUrl .= "/{$part}";
+        $label = $customLabels[$part] ?? ucfirst($part);
+        $breadcrumbLinks[$label] = $currentUrl;
+    }
+@endphp
+
+<nav class="flex mb-8 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/30" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-2">
+        <li>
+            <a href="{{ url('/') }}" class="text-blue-500 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-200">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+            </a>
+        </li>
+        <span class="mx-1 text-blue-300 dark:text-blue-400">/</span>
+        
+        @foreach ($breadcrumbLinks as $label => $url)
+            @if ($loop->last)
+                <li>
+                    <span class="text-sm font-semibold text-blue-700 dark:text-blue-200">{{ $label }}</span>
+                </li>
+            @else
+                <li>
+                    <a href="{{ url($url) }}" class="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200 transition-colors duration-200">
+                        {{ $label }}
+                    </a>
+                    <span class="mx-1 text-blue-300 dark:text-blue-400">/</span>
+                </li>
+            @endif
+        @endforeach
+    </ol>
+</nav>

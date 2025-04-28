@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* resources/css/app.css */
+audio {
+    border-radius: 4px;
+    background: #1F2937; /* bg-gray-800 */
+}
+
+audio::-webkit-media-controls-panel {
+    background: #1F2937; /* bg-gray-800 */
+}
+
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-mute-button {
+    filter: invert(1);
+}
+
+[x-cloak] {
+    display: none !important;
+}
