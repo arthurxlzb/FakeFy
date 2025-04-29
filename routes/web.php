@@ -1,125 +1,73 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\SingerController;
-use App\Http\Controllers\Admin\SongController;
-use App\Http\Controllers\Admin\AlbumController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\{UserController, SingerController, AlbumController, SongController};
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\MusicController;
 use App\Http\Middleware\CheckIfIsAdmin;
 
-// Rotas Públicas
+// Página inicial pública
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Rotas Autenticadas Comuns
+// Área pública autenticada (Usuário comum)
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Perfil do Usuário
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'edit')->name('profile.edit');
+        Route::patch('/profile', 'update')->name('profile.update');
+        Route::delete('/profile', 'destroy')->name('profile.destroy');
+    });
+
+    // Playlists
+    Route::resource('playlists', PlaylistController::class)->names('playlists');
+    Route::post('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'addSong'])->name('playlists.add-song');
+    Route::delete('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'removeSong'])->name('playlists.remove-song');
+
+    // Novas rotas para usuário comum (tipo Spotify)
+    Route::get('/', [MusicController::class, 'home'])->name('home');
+    Route::get('/search', [MusicController::class, 'search'])->name('search');
+    Route::get('/song/{song}', [MusicController::class, 'showSong'])->name('song.show');
+    Route::get('/album/{album}', [MusicController::class, 'showAlbum'])->name('album.show');
 });
 
-// Rotas Admin (gerenciando recursos específicos)
+// Área administrativa (Admin)
 Route::middleware(['auth', CheckIfIsAdmin::class])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
-        // Rotas de Usuários
-        Route::resource('users', UserController::class)
-            ->names([
-                'index' => 'users.index',
-                'create' => 'users.create',
-                'store' => 'users.store',
-                'edit' => 'users.edit',
-                'update' => 'users.update',
-                'destroy' => 'users.destroy',
-            ]);
+        // Usuários
+        Route::resource('users', UserController::class)->names('users');
 
-        // Rotas de Cantores
-        Route::resource('singers', SingerController::class)
-            ->names([
-                'index' => 'singers.index',
-                'create' => 'singers.create',
-                'store' => 'singers.store',
-                'show' => 'singers.show',
-                'edit' => 'singers.edit',
-                'update' => 'singers.update',
-                'destroy' => 'singers.destroy',
-            ]);
+        // Cantores
+        Route::resource('singers', SingerController::class)->names('singers');
 
-        // Rotas de Álbuns
-        Route::resource('albums', AlbumController::class)
-            ->names([
-                'index' => 'albums.index',
-                'create' => 'albums.create',
-                'store' => 'albums.store',
-                'show' => 'albums.show',
-                'edit' => 'albums.edit',
-                'update' => 'albums.update',
-                'destroy' => 'albums.destroy',
-            ]);
+        // Álbuns
+        Route::resource('albums', AlbumController::class)->names('albums');
 
-        // Rotas de Cantores > Álbuns
+        // Relacionamento Cantores > Álbuns
         Route::prefix('singers/{singer}')->group(function () {
             Route::get('albums', [AlbumController::class, 'index'])->name('singers.albums.index');
             Route::get('albums/create', [AlbumController::class, 'create'])->name('singers.albums.create');
             Route::post('albums', [AlbumController::class, 'store'])->name('singers.albums.store');
         });
 
-        // Rotas principais de Músicas (independentes)
-        Route::resource('songs', SongController::class)->except(['show'])
-            ->names([
-                'index' => 'songs.index',
-                'create' => 'songs.create',
-                'store' => 'songs.store',
-                'edit' => 'songs.edit',
-                'update' => 'songs.update',
-                'destroy' => 'songs.destroy',
-            ]);
+        // Músicas
+        Route::resource('songs', SongController::class)->except('show')->names('songs');
 
-        // Rotas Aninhadas (Álbuns > Músicas)
+        // Relacionamento Álbuns > Músicas
         Route::prefix('albums/{album}')->group(function () {
-            Route::get('songs/create', [SongController::class, 'createFromAlbum'])
-                ->name('albums.songs.create');
-
-            Route::post('songs', [SongController::class, 'storeFromAlbum'])
-                ->name('albums.songs.store');
-
-            Route::get('songs/{song}/edit', [SongController::class, 'editFromAlbum'])
-                ->name('albums.songs.edit');
-
-            Route::put('songs/{song}', [SongController::class, 'updateFromAlbum'])
-                ->name('albums.songs.update');
-
-            Route::delete('songs/{song}', [SongController::class, 'destroyFromAlbum'])
-                ->name('albums.songs.destroy');
+            Route::get('songs/create', [SongController::class, 'createFromAlbum'])->name('albums.songs.create');
+            Route::post('songs', [SongController::class, 'storeFromAlbum'])->name('albums.songs.store');
+            Route::get('songs/{song}/edit', [SongController::class, 'editFromAlbum'])->name('albums.songs.edit');
+            Route::put('songs/{song}', [SongController::class, 'updateFromAlbum'])->name('albums.songs.update');
+            Route::delete('songs/{song}', [SongController::class, 'destroyFromAlbum'])->name('albums.songs.destroy');
         });
     });
-
-// Rotas de Playlists
-Route::middleware(['auth'])->group(function () {
-    Route::resource('playlists', PlaylistController::class)
-        ->names([
-            'index' => 'playlists.index',
-            'create' => 'playlists.create',
-            'store' => 'playlists.store',
-            'show' => 'playlists.show',
-            'edit' => 'playlists.edit',
-            'update' => 'playlists.update',
-            'destroy' => 'playlists.destroy',
-        ]);
-
-    Route::post('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'addSong'])
-        ->name('playlists.add-song');
-    Route::delete('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'removeSong'])
-        ->name('playlists.remove-song');
-});
 
 require __DIR__.'/auth.php';

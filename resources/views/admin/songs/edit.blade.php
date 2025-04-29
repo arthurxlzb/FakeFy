@@ -70,7 +70,7 @@
                         class="w-full px-4 py-4 text-white bg-blue-600 rounded hover:bg-blue-700">
                         Atualizar Música
                     </button>
-                    <a href="{{ route('admin.albums.show', $album->id) }}"
+                    <a href="{{ route('admin.songs.index', $album->id) }}"
                         class="w-full px-4 py-5 text-center text-white bg-gray-600 rounded hover:bg-gray-700">
                         Cancelar
                     </a>
