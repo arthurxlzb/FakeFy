@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 
 class UserController extends Controller
@@ -14,7 +15,6 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(10);
-        $users = User::with('playlists')->paginate(10);
 
         return view('admin.users.index', compact('users'));
     }
@@ -27,30 +27,25 @@ class UserController extends Controller
         return view('admin.users.create');
     }
 
+    /**
+     * Exibir os detalhes do usuário.
+     */
     public function show($id)
     {
-    // Localiza o usuário pelo ID
-    $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-    // Retorna a view com os detalhes do usuário
-    return view('admin.users.show', compact('user'));
+        return view('admin.users.show', compact('user'));
     }
 
     /**
      * Salvar um novo usuário no banco.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
-        ]);
-
         User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Usuário criado com sucesso!');
@@ -67,14 +62,19 @@ class UserController extends Controller
     /**
      * Atualizar os dados do usuário.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-        ]);
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
 
-        $user->update($validatedData);
+        // Se a senha foi informada, atualiza também
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $user->update($data);
 
         return redirect()->route('admin.users.index')->with('success', 'Usuário atualizado com sucesso!');
     }

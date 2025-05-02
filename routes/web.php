@@ -8,9 +8,7 @@ use App\Http\Controllers\MusicController;
 use App\Http\Middleware\CheckIfIsAdmin;
 
 // Página inicial pública
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [MusicController::class, 'home'])->name('home');
 
 // Área pública autenticada (Usuário comum)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -28,9 +26,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'addSong'])->name('playlists.add-song');
     Route::delete('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'removeSong'])->name('playlists.remove-song');
 
-    // Novas rotas para usuário comum (tipo Spotify)
-    Route::get('/', [MusicController::class, 'home'])->name('home');
+    // Rota de busca
     Route::get('/search', [MusicController::class, 'search'])->name('search');
+
+    // Rota para exibir música e álbum
+    Route::post('/songs/{song}/like', [SongController::class, 'likeSong'])->name('songs.like');
     Route::get('/song/{song}', [MusicController::class, 'showSong'])->name('song.show');
     Route::get('/album/{album}', [MusicController::class, 'showAlbum'])->name('album.show');
 });

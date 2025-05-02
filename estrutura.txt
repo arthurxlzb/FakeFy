@@ -1207,6 +1207,7 @@
 │       ├── emails
 │       ├── layouts
 │       ├── listagem.html
+│       ├── music
 │       ├── playlists
 │       ├── profile
 │       ├── site
@@ -1268,7 +1269,21 @@
 │   │   ├── 01JSZ8TZ2K3PQ81TPDC89JEX7D.json
 │   │   ├── 01JSZ8VDDSA32WXMZHTSPDGYB2.json
 │   │   ├── 01JSZ8VDHEX8YEG3XMNTVTQPVS.json
-│   │   └── 01JSZ9CC50H7XNRYVVDKPM2N5V.json
+│   │   ├── 01JSZ9CC50H7XNRYVVDKPM2N5V.json
+│   │   ├── 01JSZE7ZFBC6QBRMJRTV03HV7W.json
+│   │   ├── 01JSZEBPD3YRVPGC36A71BAQDF.json
+│   │   ├── 01JSZEBQ6SDB11Q9K0RAKMV02H.json
+│   │   ├── 01JSZEBQVMK6JVXX3KEPGVBZEE.json
+│   │   ├── 01JSZEBW82MSKQYWGM7THJDTNQ.json
+│   │   ├── 01JSZEBWC1XMDVQSC4HK91MXY0.json
+│   │   ├── 01JSZEBYRYFZFA61MX8G389S1B.json
+│   │   ├── 01JSZEC42VRJBBYEW9SE9RMD4Q.json
+│   │   ├── 01JSZEDDAFS3ZQQQS0W5TT841K.json
+│   │   ├── 01JSZEEQT2JG6MN0265PPWZJKG.json
+│   │   ├── 01JSZEEQY5EKS164M9JN1Y4KKY.json
+│   │   ├── 01JSZEET0Y8DQH90VVW9MDFT5H.json
+│   │   ├── 01JT8JGAFKJTS2W5E95WG522D8.json
+│   │   └── 01JT8JGB8QK362JJMNTVNVDJ0S.json
 │   ├── framework
 │   │   ├── cache
 │   │   ├── sessions
@@ -1493,4 +1508,4 @@
 │       └── assert
 └── vite.config.js
 
-543 directories, 951 files
+544 directories, 965 files

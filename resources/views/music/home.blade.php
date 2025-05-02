@@ -1,25 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Bem-vindo ao MusicApp</h1>
+    <div class="container px-4 py-6 mx-auto">
+        <!-- Título principal -->
+        <h1 class="mb-8 text-4xl font-bold text-center text-white">Bem-vindo ao Fakefy</h1>
 
-        <h2>Músicas Populares</h2>
-        <ul>
+        <!-- Músicas Populares -->
+        <h2 class="mb-4 text-2xl font-semibold text-white">Músicas Populares</h2>
+        <div class="grid grid-cols-2 gap-4 mb-8 sm:grid-cols-3 md:grid-cols-4">
             @foreach($songs as $song)
-                <li>
-                    <a href="{{ route('song.show', $song->id) }}">{{ $song->title }}</a>
-                </li>
+                <div class="p-4 transition transform bg-gray-800 rounded-lg shadow-lg hover:scale-105">
+                    <a href="{{ route('song.show', $song->id) }}" class="text-xl font-medium text-white hover:text-green-500">
+                        {{ $song->title }}
+                    </a>
+                    <p class="mt-2 text-gray-400">Cantor: {{ $song->singer->name }}</p>
+                </div>
             @endforeach
-        </ul>
+        </div>
 
-        <h2>Álbuns Recentes</h2>
-        <ul>
+        <!-- Álbuns Recentes -->
+        <h2 class="mb-4 text-2xl font-semibold text-white">Álbuns Recentes</h2>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             @foreach($albums as $album)
-                <li>
-                    <a href="{{ route('album.show', $album->id) }}">{{ $album->title }}</a>
-                </li>
+                <div class="p-4 transition transform bg-gray-800 rounded-lg shadow-lg hover:scale-105">
+                    <a href="{{ route('album.show', $album->id) }}" class="text-xl font-medium text-white hover:text-green-500">
+                        {{ $album->title }}
+                    </a>
+                    <p class="mt-2 text-gray-400">Artista: {{ $album->singer->name }}</p>
+                </div>
             @endforeach
-        </ul>
+        </div>
     </div>
 @endsection

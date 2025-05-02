@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Playlist;
+use App\Models\LikedSong;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -53,12 +54,19 @@ class User extends Authenticatable
         return $this->hasMany(Playlist::class, 'user_id');
     }
 
+
     public function supports(): HasMany
     {
         return $this->hasMany(Support::class);
     }
 
+
     public function isAdm(): bool{
         return in_array($this->email, config('custom.admins'));
+    }
+
+    public function likedSongs()
+    {
+        return $this->hasMany(LikedSong::class);
     }
 }
