@@ -232,7 +232,7 @@ class SongController extends Controller
         // Se já curtiu, remove o like
         $likedSong->delete();
 
-        // Decrementa o contador de curtidas na música
+        // Decrementa o contador de curtidas na música correta
         $song->decrement('likes');
 
         return back()->with('success', 'Você descurtiu esta música.');
@@ -243,12 +243,13 @@ class SongController extends Controller
             'song_id' => $song->id,
         ]);
 
-        // Incrementa o contador de curtidas na música
+        // Incrementa o contador de curtidas na música correta
         $song->increment('likes');
 
         return back()->with('success', 'Você curtiu esta música!');
     }
 }
+
 
 
 

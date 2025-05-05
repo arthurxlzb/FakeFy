@@ -10,11 +10,12 @@ class Album extends Model
     use HasFactory;
 
     protected $fillable = [
-        'singer_id', 
+        'singer_id',
         'title',
         'release_date',
         'cover_image',
-        'description'
+        'description',
+        'likes'
     ];
 
     protected $casts = [
@@ -43,4 +44,10 @@ class Album extends Model
         $seconds = $this->duration;
         return sprintf('%02d:%02d', ($seconds / 60) % 60, $seconds % 60);
     }
+
+    public function Albumsliked()
+{
+    return $this->belongsToMany(User::class, 'album_likes')->withTimestamps();
+}
+
 }

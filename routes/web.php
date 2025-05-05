@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rota para exibir música e álbum
     Route::post('/songs/{song}/like', [SongController::class, 'likeSong'])->name('songs.like');
+    Route::post('/albums/{album}/like', [AlbumController::class, 'likeAlbum'])->name('albums.like');
     Route::get('/song/{song}', [MusicController::class, 'showSong'])->name('song.show');
     Route::get('/album/{album}', [MusicController::class, 'showAlbum'])->name('album.show');
 });

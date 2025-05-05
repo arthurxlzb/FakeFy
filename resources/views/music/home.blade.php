@@ -14,6 +14,7 @@
                         {{ $song->title }}
                     </a>
                     <p class="mt-2 text-gray-400">Cantor: {{ $song->singer->name }}</p>
+                    <p class="mt-2 text-gray-400">Curtidas: {{ $song->likes }}</p>
                 </div>
             @endforeach
         </div>
