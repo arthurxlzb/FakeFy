@@ -80,4 +80,14 @@ class PlaylistController extends Controller
         $playlist->songs()->detach($song->id);
         return back()->with('success', 'Música removida da playlist!');
     }
+
+    public function userPlaylists()
+    {
+        $user = auth()->user();
+        $playlists = $user->playlists()->latest()->get();
+
+        return view('music.playlist', compact('playlists'));
+    }
+
+
 }

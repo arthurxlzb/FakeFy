@@ -28,6 +28,7 @@
                         {{ $album->title }}
                     </a>
                     <p class="mt-2 text-gray-400">Artista: {{ $album->singer->name }}</p>
+                    <p class="mt-2 text-gray-400">Curtidas: {{ $album->likes }}</p>
                 </div>
             @endforeach
         </div>

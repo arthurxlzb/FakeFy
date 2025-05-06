@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Song;
 use App\Models\Album;
+use App\Models\Playlist;
 use App\Models\Singer;
 use App\Models\LikedSong;
 use App\Http\Requests\UpdateSongRequest;
@@ -220,35 +221,51 @@ class SongController extends Controller
 
     public function likeSong(Song $song)
 {
-    // Pega o usuário autenticado
     $user = auth()->user();
 
-    // Verifica se o usuário já curtiu a música
     $likedSong = LikedSong::where('user_id', $user->id)
                           ->where('song_id', $song->id)
                           ->first();
 
     if ($likedSong) {
-        // Se já curtiu, remove o like
+        // Descurtir
         $likedSong->delete();
-
-        // Decrementa o contador de curtidas na música correta
         $song->decrement('likes');
+
+        // Remover da playlist "Curtidas"
+        $playlist = $user->playlists()->where('title', 'Curtidas')->first();
+        if ($playlist) {
+            $playlist->removeSong($song); // Usa o método do model Playlist
+        }
 
         return back()->with('success', 'Você descurtiu esta música.');
     } else {
-        // Se não curtiu, adiciona o like
+        // Curtir
         LikedSong::create([
             'user_id' => $user->id,
             'song_id' => $song->id,
         ]);
-
-        // Incrementa o contador de curtidas na música correta
         $song->increment('likes');
+
+        // Cria ou pega a playlist "Curtidas"
+        $playlist = $user->playlists()->firstOrCreate(
+            ['title' => 'Curtidas'],
+            [
+                'description' => 'Músicas curtidas automaticamente',
+                'is_public' => false,
+                'user_id' => $user->id
+            ]
+        );
+
+        // Adiciona à playlist usando o método do model
+        if (!$playlist->songs->contains($song->id)) {
+            $playlist->addSong($song);
+        }
 
         return back()->with('success', 'Você curtiu esta música!');
     }
 }
+
 
 
 
