@@ -233,7 +233,7 @@ class SongController extends Controller
         $song->decrement('likes');
 
         // Remover da playlist "Curtidas"
-        $playlist = $user->playlists()->where('title', 'Curtidas')->first();
+        $playlist = $user->playlists()->where('title', 'Musicas-Curtidas')->first();
         if ($playlist) {
             $playlist->removeSong($song); // Usa o método do model Playlist
         }
@@ -251,7 +251,7 @@ class SongController extends Controller
         $playlist = $user->playlists()->firstOrCreate(
             ['title' => 'Curtidas'],
             [
-                'description' => 'Músicas curtidas automaticamente',
+                'description' => 'Suas Músicas Curtidas',
                 'is_public' => false,
                 'user_id' => $user->id
             ]

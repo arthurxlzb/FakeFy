@@ -46,6 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/albums/{album}/like', [AlbumController::class, 'likeAlbum'])->name('albums.like');
 
     // Busca
+    Route::get('/autocomplete', [MusicController::class, 'autocomplete'])->name('autocomplete');
     Route::get('/search', [MusicController::class, 'search'])->name('search');
 });
 

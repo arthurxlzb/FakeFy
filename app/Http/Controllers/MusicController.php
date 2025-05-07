@@ -41,4 +41,23 @@ class MusicController extends Controller
         $songs = $album->songs; // Supondo que um álbum tenha muitas músicas (relação one-to-many)
         return view('music.showAlbum', compact('album', 'songs')); // Passando o álbum e suas músicas para a view
     }
+
+    public function autocomplete(Request $request)
+    {
+        $search = $request->get('query');
+
+        $songs = Song::where('title', 'LIKE', "%{$search}%")
+            ->limit(5)
+            ->get(['id', 'title']);
+
+        $albums = Album::where('title', 'LIKE', "%{$search}%")
+            ->limit(5)
+            ->get(['id', 'title']);
+
+        return response()->json([
+            'songs' => $songs,
+            'albums' => $albums,
+        ]);
+    }
+
 }

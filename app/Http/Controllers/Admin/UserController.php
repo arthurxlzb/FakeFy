@@ -67,6 +67,7 @@ class UserController extends Controller
         $data = [
             'name' => $request->name,
             'email' => $request->email,
+            'is_admin' => $request->has('is_admin'), // checkbox retorna true se marcado
         ];
 
         // Se a senha foi informada, atualiza também
@@ -78,6 +79,7 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'Usuário atualizado com sucesso!');
     }
+
 
     /**
      * Excluir o usuário.

@@ -20,7 +20,8 @@
         <table class="min-w-full text-white bg-gray-800 border border-gray-700 rounded-lg">
             <thead>
                 <tr class="bg-gray-700">
-                    <th class="px-6 py-3 text-left">Título</th>
+                    <th class="px-6 py-3 text-left">Nome</th>
+                    <th class="px-6 py-3 text-left">Usuario</th>
                     <th class="px-6 py-3 text-left">Descrição</th>
                     <th class="px-6 py-3 text-left">Pública</th>
                     <th class="px-6 py-3 text-left">Ações</th>
@@ -30,6 +31,7 @@
                 @forelse ($playlists as $playlist)
                     <tr class="border-b border-gray-700">
                         <td class="px-6 py-3">{{ $playlist->title }}</td>
+                        <td class="px-6 py-3">{{ $playlist->user->name }}</td>
                         <td class="px-6 py-3">{{ $playlist->description }}</td>
                         <td class="px-6 py-3">{{ $playlist->is_public ? 'Sim' : 'Não' }}</td>
                         <td class="flex gap-2 px-6 py-3">

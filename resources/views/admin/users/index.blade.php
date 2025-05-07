@@ -19,25 +19,32 @@
     <x-alert />
 
     <div class="overflow-x-auto">
-        <table class="min-w-full text-white bg-gray-800 border border-gray-700 rounded-lg">
+        <table class="min-w-full text-sm text-white bg-gray-800 border border-gray-700 rounded-lg">
             <thead>
-                <tr class="bg-gray-700">
-                    <th class="px-8 py-4 text-left">Nome</th>
-                    <th class="px-8 py-4 text-left">E-mail</th>
-                    <th class="px-8 py-4 text-left">Playlists</th>
-                    <th class="px-8 py-4 text-left">Ações</th>
+                <tr class="text-xs tracking-wider text-gray-200 uppercase bg-gray-700">
+                    <th class="px-4 py-3 text-left">Nome</th>
+                    <th class="px-4 py-3 text-left">E-mail</th>
+                    <th class="px-4 py-3 text-center">Admin</th>
+                    <th class="px-4 py-3 text-center">Playlists</th>
+                    <th class="px-4 py-3 text-center">Ações</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($users as $user)
-                    <tr class="border-b border-gray-700">
-                        <td class="px-8 py-4">{{ $user->name }}</td>
-                        <td class="px-8 py-4">{{ $user->email }}</td>
-                        <td class="px-8 py-4">
-                            <div x-data="{ openModal: false }" class="flex items-center gap-2">
+                    <tr class="transition-colors border-b border-gray-700 hover:bg-gray-700">
+                        <td class="px-4 py-3 font-medium">{{ $user->name }}</td>
+                        <td class="px-4 py-3 text-gray-300">{{ $user->email }}</td>
+                        <td class="px-4 py-3 text-center">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                {{ $user->is_admin ? 'bg-green-600 text-white' : 'bg-red-600 text-white' }}">
+                                {{ $user->is_admin ? 'Sim' : 'Não' }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-center">
+                            <div x-data="{ openModal: false }" class="flex items-center justify-center gap-2">
                                 <span>{{ $user->playlists->count() }} Playlist(s)</span>
                                 <button @click="openModal = true"
-                                    class="px-3 py-1 text-sm text-white bg-green-600 rounded hover:bg-green-700">
+                                    class="px-3 py-1 text-xs bg-green-600 rounded hover:bg-green-700">
                                     Ver
                                 </button>
 
@@ -55,9 +62,9 @@
                                                     <span>{{ $playlist->title ?? $playlist->name ?? 'Nome não disponível' }}</span>
                                                     <div class="flex gap-2">
                                                         <a href="{{ route('playlists.edit', $playlist->id) }}"
-                                                            class="px-3 py-1 text-sm text-white bg-yellow-600 rounded hover:bg-yellow-700">Editar</a>
+                                                            class="px-3 py-1 text-xs bg-yellow-600 rounded hover:bg-yellow-700">Editar</a>
                                                         <a href="{{ route('playlists.show', $playlist->id) }}"
-                                                            class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700">Ver</a>
+                                                            class="px-3 py-1 text-xs bg-blue-600 rounded hover:bg-blue-700">Ver</a>
                                                     </div>
                                                 </li>
                                             @empty
@@ -67,7 +74,7 @@
 
                                         <div class="mt-6 text-right">
                                             <button @click="openModal = false"
-                                                class="px-4 py-2 text-sm text-white transition-colors bg-gray-700 rounded hover:bg-gray-600">
+                                                class="px-4 py-2 text-sm bg-gray-700 rounded hover:bg-gray-600">
                                                 Fechar
                                             </button>
                                         </div>
@@ -76,14 +83,14 @@
                                 <!-- Fim Modal -->
                             </div>
                         </td>
-                        <td class="px-8 py-4">
-                            <div class="flex gap-2">
+                        <td class="px-4 py-3 text-center">
+                            <div class="flex justify-center gap-2">
                                 <a href="{{ route('admin.users.edit', $user->id) }}"
-                                    class="px-4 py-2 text-sm text-white bg-yellow-500 rounded hover:bg-yellow-600">
+                                    class="px-3 py-1 text-xs bg-yellow-500 rounded hover:bg-yellow-600">
                                     Editar
                                 </a>
                                 <a href="{{ route('admin.users.show', $user->id) }}"
-                                    class="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
+                                    class="px-3 py-1 text-xs bg-blue-500 rounded hover:bg-blue-600">
                                     Detalhes
                                 </a>
                             </div>
@@ -91,12 +98,13 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-8 py-4 text-center">Nenhum usuário encontrado.</td>
+                        <td colspan="5" class="px-4 py-4 text-center text-gray-400">Nenhum usuário encontrado.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+
 
     <div class="mt-4">
         {{ $users->links() }}

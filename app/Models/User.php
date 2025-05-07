@@ -31,6 +31,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -50,6 +51,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 
 
@@ -66,7 +68,9 @@ class User extends Authenticatable
 
 
     public function isAdm(): bool{
-        return in_array($this->email, config('custom.admins'));
+
+        return $this->is_admin;
+
     }
 
     public function likedSongs()

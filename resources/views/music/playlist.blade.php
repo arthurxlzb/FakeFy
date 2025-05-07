@@ -18,6 +18,7 @@
                     <a href="{{ route('playlists.show', $playlist->id) }}"
                        class="block p-4 transition bg-white rounded-lg shadow hover:shadow-md dark:bg-gray-800 dark:text-white">
                         <h2 class="mb-1 text-lg font-bold">{{ $playlist->title }}</h2>
+                        <h2 class="mb-1 text-lg font-bold">{{ $playlist->user->name }}</h2>
                         <p class="text-sm text-gray-600 dark:text-gray-400">{{ $playlist->description ?? 'Sem descrição' }}</p>
                         <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ $playlist->songs->count() }} música(s)</p>
                     </a>
