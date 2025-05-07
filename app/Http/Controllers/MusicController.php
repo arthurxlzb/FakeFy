@@ -2,46 +2,46 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Song;
 use App\Models\Album;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MusicController extends Controller
 {
-    // Método para a página inicial (Home)
+    // Método para exibir a página inicial
     public function home()
     {
-        // Aqui você pode recuperar as músicas ou álbuns mais populares, por exemplo
-        $songs = Song::latest()->take(10)->get(); // Exemplo: pegar as 10 músicas mais recentes
-        $albums = Album::latest()->take(5)->get(); // Exemplo: pegar os 5 álbuns mais recentes
-
-        return view('music.home', compact('songs', 'albums')); // Passando para a view
+        $songs = Song::latest()->take(10)->get();
+        $albums = Album::latest()->take(5)->get();
+        return view('music.home', compact('songs', 'albums'));
     }
 
-    // Método para buscar músicas
+    // Método de busca de músicas
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $songs = Song::where('title', 'like', "%{$query}%")->get(); // Busca por título da música
-
-        return view('music.search', compact('songs')); // Passando as músicas encontradas
+        $songs = Song::where('title', 'like', "%{$query}%")->get();
+        return view('music.search', compact('songs'));
     }
 
-    // Método para exibir a página de uma música específica
+    // Exibir uma música específica
     public function showSong($song)
     {
-        $song = Song::findOrFail($song); // Encontrar a música ou retornar 404 caso não exista
-        return view('music.showSong', compact('song')); // Passando a música para a view
+        $song = Song::findOrFail($song);
+        return view('music.showSong', compact('song'));
     }
 
-    // Método para exibir a página de um álbum específico
+    // Exibir um álbum específico
     public function showAlbum($album)
     {
-        $album = Album::findOrFail($album); // Encontrar o álbum ou retornar 404 caso não exista
-        $songs = $album->songs; // Supondo que um álbum tenha muitas músicas (relação one-to-many)
-        return view('music.showAlbum', compact('album', 'songs')); // Passando o álbum e suas músicas para a view
+        $album = Album::findOrFail($album);
+        $songs = $album->songs;
+        return view('music.showAlbum', compact('album', 'songs'));
     }
 
+    // Autocomplete da busca
     public function autocomplete(Request $request)
     {
         $search = $request->get('query');
@@ -59,5 +59,31 @@ class MusicController extends Controller
             'albums' => $albums,
         ]);
     }
+
+    // **Novo método para exibir a página de edição do perfil**
+    public function editProfile()
+    {
+        return view('music.EditarPerfil', ['user' => Auth::user()]);
+    }
+
+    // **Novo método para atualizar o perfil do usuário**
+    public function updateProfile(Request $request)
+{
+    $data = [
+        'name' => $request->name,
+        'email' => $request->email,
+    ];
+
+    // Se a senha foi informada, atualiza também
+    if ($request->filled('password')) {
+        $data['password'] = bcrypt($request->password);
+    }
+
+    $user = Auth::user();
+    $user->update($data);
+
+    return redirect()->route('profile.edit')->with('success', 'Perfil atualizado com sucesso!');
+}
+
 
 }

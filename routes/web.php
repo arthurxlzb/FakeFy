@@ -38,6 +38,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('playlists', PlaylistController::class);
     Route::get('/playlist', [PlaylistController::class, 'UserPlaylists'])->name('userplaylist');
 
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/music/EditarPerfil', [MusicController::class, 'editProfile'])->name('profile.edit');
+        Route::put('/music/EditarPerfil', [MusicController::class, 'updateProfile'])->name('profile.update');
+    });
+
 
     // Músicas e Álbuns (visualização e curtidas)
     Route::get('/song/{song}', [MusicController::class, 'showSong'])->name('song.show');
