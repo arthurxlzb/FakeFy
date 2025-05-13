@@ -82,7 +82,7 @@ class MusicController extends Controller
     $user = Auth::user();
     $user->update($data);
 
-    return redirect()->route('profile.edit')->with('success', 'Perfil atualizado com sucesso!');
+    return redirect()->route('home')->with('success', 'Perfil atualizado com sucesso!');
 }
 
 

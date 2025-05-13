@@ -7,7 +7,7 @@
 
     <!-- Título e data -->
     <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold">{{ $album->title }}</h2>
+        <h2 class="text-2xl font-semibold">{{ $album->title }}</h2>
         <span class="px-3 py-1 text-sm bg-gray-700 rounded-full">
             Lançado em {{ \Carbon\Carbon::parse($album->release_date)->format('d/m/Y') }}
         </span>
@@ -53,7 +53,7 @@
 
     <!-- Botão de voltar -->
     <div class="mt-8 text-center">
-        <a href="{{ url()->previous() }}" class="inline-block px-6 py-3 text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
+        <a href="{{ route('home') }}" class="inline-block px-6 py-3 text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
             <i class="mr-2 fas fa-arrow-left"></i> Voltar
         </a>
     </div>

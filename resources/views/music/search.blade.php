@@ -2,9 +2,7 @@
 
 @section('content')
     <div class="max-w-2xl px-4 py-10 mx-auto">
-        <h1 class="mb-8 text-3xl font-bold text-center text-gray-800 dark:text-white">
-            Buscar Músicas
-        </h1>
+        <h1 class="mb-8 text-3xl font-semibold text-center text-white">Buscar Músicas</h1>
 
         <!-- Campo de busca com autocomplete -->
         <div class="relative">
@@ -12,7 +10,7 @@
                 type="text"
                 id="searchInput"
                 placeholder="Digite o nome da música..."
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                class="w-full px-4 py-3 text-white placeholder-gray-400 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-800 dark:text-white dark:border-gray-600"
             >
             <ul id="autocompleteResults" class="absolute z-10 hidden w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800">
                 <!-- Resultados aqui -->

@@ -3,13 +3,14 @@
 @section('title', 'Listagem de Álbuns')
 
 @section('content')
-<div class="p-6 text-white bg-gray-900 rounded-lg shadow-md">
+<div class="p-8 text-white bg-gray-900 rounded-lg shadow-lg">
     @include('admin.albums.partials.breadcrumb')
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-semibold">Álbuns</h2>
+
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-3xl font-semibold">Álbuns</h2>
         <a href="{{ route('admin.albums.create') }}"
-            class="flex items-center px-4 py-2 font-bold text-white bg-blue-600 rounded hover:bg-blue-800">
-            <i class="mr-2 fa-solid fa-plus"></i> Novo Album
+            class="flex items-center px-6 py-3 font-bold text-white transition duration-300 bg-blue-600 rounded-lg hover:bg-blue-700">
+            <i class="mr-2 fa-solid fa-plus"></i> Novo Álbum
         </a>
     </div>
 
@@ -25,17 +26,17 @@
             </thead>
             <tbody>
                 @forelse($albums as $album)
-                    <tr>
+                    <tr class="transition duration-200 hover:bg-gray-700">
                         <td class="px-6 py-3">{{ $album->title }}</td>
                         <td class="px-6 py-3">{{ $album->singer->name }}</td>
                         <td class="px-6 py-3">{{ $album->release_date->format('d/m/Y') }}</td>
-                        <td class="flex gap-2 px-6 py-3">
+                        <td class="flex gap-4 px-6 py-3">
                             <a href="{{ route('admin.albums.edit', $album->id) }}"
-                               class="px-4 py-2 text-white bg-yellow-500 rounded hover:bg-yellow-600">
+                               class="px-4 py-2 text-white transition duration-300 bg-yellow-500 rounded-lg hover:bg-yellow-600">
                                 Editar
                             </a>
                             <a href="{{ route('admin.albums.show', $album->id) }}"
-                               class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
+                               class="px-4 py-2 text-white transition duration-300 bg-blue-500 rounded-lg hover:bg-blue-600">
                                 Detalhes
                             </a>
                         </td>

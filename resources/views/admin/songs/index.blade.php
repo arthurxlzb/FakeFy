@@ -1,4 +1,5 @@
 <!-- resources/views/admin/songs/index.blade.php -->
+
 @extends('admin.layouts.app')
 
 @section('title', 'Todas as Músicas')
@@ -8,8 +9,8 @@
     <div class="flex items-center justify-between mb-4">
         <h2 class="text-2xl font-semibold">Todas as Músicas</h2>
         <a href="{{ route('admin.songs.create') }}"
-            class="flex items-center px-4 py-2 font-bold text-white bg-blue-600 rounded hover:bg-blue-800">
-            <i class="mr-2 fa-solid fa-plus"></i> Nova Musica
+            class="flex items-center px-4 py-2 font-bold text-white transition duration-300 bg-blue-600 rounded hover:bg-blue-800">
+            <i class="mr-2 fa-solid fa-plus"></i> Nova Música
         </a>
     </div>
 
@@ -37,18 +38,17 @@
                                 <source src="{{ asset('storage/' . $song->file_path) }}" type="audio/mpeg">
                                 Seu navegador não suporta o elemento de áudio.
                             </audio>
-
                         </td>
                         <td class="flex gap-2 px-6 py-3">
                             <a href="{{ route('admin.songs.edit', $song->id) }}"
-                               class="px-3 py-1 text-sm text-white bg-yellow-500 rounded hover:bg-yellow-600">
+                               class="px-3 py-1 text-sm text-white transition duration-300 bg-yellow-500 rounded hover:bg-yellow-600">
                                 Editar
                             </a>
                             <form action="{{ route('admin.songs.destroy', $song->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                        class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600"
+                                        class="px-3 py-1 text-sm text-white transition duration-300 bg-red-500 rounded hover:bg-red-600"
                                         onclick="return confirm('Tem certeza que deseja excluir esta música?')">
                                     Excluir
                                 </button>

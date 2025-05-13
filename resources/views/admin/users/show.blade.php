@@ -3,43 +3,60 @@
 @section('title', 'Detalhes do Usuário')
 
 @section('content')
-
 <div class="p-6 text-white bg-gray-900 rounded-lg shadow-md">
-    <h1 class="text-2xl font-semibold">Detalhes do Usuário: {{ $user->name }}</h1>
+    <h1 class="mb-2 text-2xl font-bold">Detalhes do Usuário: {{ $user->name }}</h1>
 
     @include('admin.users.partials.breadcrumb')
 
-    <ul class="mt-4 space-y-2">
-        <li><strong>Nome:</strong> {{ $user->name }}</li>
-        <li><strong>Email:</strong> {{ $user->email }}</li>
-    </ul>
+    <div class="mt-4 space-y-2 text-sm">
+        <p><strong>Nome:</strong> {{ $user->name }}</p>
+        <p><strong>Email:</strong> {{ $user->email }}</p>
+    </div>
 
     <x-alert />
 
     @can('is-admin')
-        <div class="flex gap-4 mt-4">
-            <!-- Botão Deletar -->
-            <form action="{{ route('admin.users.destroy', $user->id) }}" method="post">
-                @csrf
-                @method('delete')
-
-                <button type="submit"
-                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300
-                    font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700
-                    dark:focus:ring-red-800">
-                    Deletar
-                </button>
-            </form>
-
-            <!-- Botão Voltar -->
+        <div class="flex flex-wrap gap-3 mt-6">
+            {{-- Botão voltar --}}
             <a href="{{ route('admin.users.index') }}"
-                class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300
-                font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700
-                dark:focus:ring-blue-800">
+               class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700">
                 Voltar
             </a>
+
+            {{-- Botão excluir com modal --}}
+            <div x-data="{ confirmDelete: false }">
+                <button @click="confirmDelete = true"
+                        class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">
+                    Deletar
+                </button>
+
+                {{-- Modal de confirmação --}}
+                <div x-show="confirmDelete" x-cloak x-transition
+                     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+                    <div class="w-full max-w-sm p-6 text-white bg-gray-800 rounded shadow-lg">
+                        <h2 class="mb-4 text-lg font-semibold">Tem certeza?</h2>
+                        <p class="mb-4 text-sm">
+                            Deseja excluir o usuário <strong>{{ $user->name }}</strong>?
+                            Esta ação não poderá ser desfeita.
+                        </p>
+                        <div class="flex justify-end gap-3">
+                            <button @click="confirmDelete = false"
+                                    class="px-4 py-2 text-sm bg-gray-700 rounded hover:bg-gray-600">
+                                Cancelar
+                            </button>
+                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="px-4 py-2 text-sm bg-red-600 rounded hover:bg-red-700">
+                                    Confirmar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     @endcan
 </div>
-
 @endsection

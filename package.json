@@ -16,6 +16,9 @@
         "vite": "^6.2.3"
     },
     "dependencies": {
-        "plyr": "^3.7.8"
+        "class-variance-authority": "^0.7.1",
+        "lucide-static": "^0.510.0",
+        "plyr": "^3.7.8",
+        "tailwind-variants": "^1.0.0"
     }
 }

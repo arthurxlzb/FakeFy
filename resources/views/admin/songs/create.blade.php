@@ -24,20 +24,20 @@
         @endif
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div class="space-y-4">
+            <div class="space-y-6">
 
                 <!-- Título -->
                 <div>
-                    <label for="title" class="block mb-2 font-medium">Título da Música</label>
+                    <label for="title" class="block mb-2 font-medium text-gray-300">Título da Música</label>
                     <input type="text" id="title" name="title" value="{{ old('title') }}" required
-                        class="w-full p-3 bg-gray-800 border border-gray-700 rounded">
+                        class="w-full p-3 text-white bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <!-- Cantor (aparece apenas se não estiver vindo de um álbum específico) -->
                 @if(!isset($album))
                 <div>
-                    <label for="singer_id" class="block mb-2 font-medium">Cantor</label>
-                    <select id="singer_id" name="singer_id" class="w-full p-3 bg-gray-800 border border-gray-700 rounded" required>
+                    <label for="singer_id" class="block mb-2 font-medium text-gray-300">Cantor</label>
+                    <select id="singer_id" name="singer_id" class="w-full p-3 text-white bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                         <option value="">Selecione um cantor</option>
                         @foreach($singers as $singer)
                             <option value="{{ $singer->id }}" {{ old('singer_id') == $singer->id ? 'selected' : '' }}>
@@ -51,8 +51,8 @@
                 <!-- Álbum (aparece apenas se não estiver vindo de um álbum específico) -->
                 @if(!isset($album))
                 <div>
-                    <label for="album_id" class="block mb-2 font-medium">Álbum</label>
-                    <select id="album_id" name="album_id" class="w-full p-3 bg-gray-800 border border-gray-700 rounded" required>
+                    <label for="album_id" class="block mb-2 font-medium text-gray-300">Álbum</label>
+                    <select id="album_id" name="album_id" class="w-full p-3 text-white bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                         <option value="">Selecione um álbum</option>
                         @foreach($albums as $alb)
                             <option value="{{ $alb->id }}" {{ old('album_id') == $alb->id ? 'selected' : '' }}>
@@ -65,14 +65,14 @@
 
                 <!-- Número da Faixa -->
                 <div>
-                    <label for="track_number" class="block mb-2 font-medium">Número da Faixa</label>
+                    <label for="track_number" class="block mb-2 font-medium text-gray-300">Número da Faixa</label>
                     <input type="number" id="track_number" name="track_number" value="{{ old('track_number') }}" required
-                        class="w-full p-3 bg-gray-800 border border-gray-700 rounded">
+                        class="w-full p-3 text-white bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <!-- Arquivo de Áudio -->
                 <div>
-                    <label for="song_file" class="block mb-2 font-medium">Arquivo de Áudio</label>
+                    <label for="song_file" class="block mb-2 font-medium text-gray-300">Arquivo de Áudio</label>
                     <input type="file" id="song_file" name="song_file" accept=".mp3,.wav,.aac"
                         class="block w-full text-sm text-gray-300 file:bg-gray-700 file:border-0 file:py-2 file:px-4 file:rounded file:text-white hover:file:bg-gray-600">
                     <p class="mt-2 text-sm text-gray-400">Formatos suportados: MP3, WAV, AAC. Tamanho máximo: 20MB</p>
@@ -84,11 +84,11 @@
         <!-- Botões -->
         <div class="flex justify-end mt-6 space-x-4">
             <button type="submit"
-                class="px-6 py-3 font-semibold text-white bg-green-600 rounded hover:bg-green-500">
+                class="px-6 py-3 font-semibold text-white transition duration-300 bg-green-600 rounded hover:bg-green-500">
                 Salvar Música
             </button>
             <a href="{{ isset($album) ? route('admin.albums.show', $album) : route('admin.songs.index') }}"
-                class="px-6 py-3 font-semibold text-white bg-gray-600 rounded hover:bg-gray-500">
+                class="px-6 py-3 font-semibold text-white transition duration-300 bg-gray-600 rounded hover:bg-gray-500">
                 Cancelar
             </a>
         </div>

@@ -55,9 +55,16 @@
         </div>
 
 
-        <button type="submit" class="px-6 py-2 font-bold text-white bg-green-600 rounded hover:bg-green-800">
-            Criar
-        </button>
+        <div class="flex space-x-6">
+            <button type="submit" class="px-6 py-2 font-bold text-white bg-green-600 rounded hover:bg-green-800">
+                Criar
+            </button>
+
+            <a href="{{ route('home') }}" class="px-6 py-2 font-bold text-white bg-gray-600 rounded hover:bg-gray-800">
+                Voltar
+            </a>
+        </div>
+
     </form>
 </div>
 @endsection

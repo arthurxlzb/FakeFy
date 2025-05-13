@@ -220,51 +220,53 @@ class SongController extends Controller
     }
 
     public function likeSong(Song $song)
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    $likedSong = LikedSong::where('user_id', $user->id)
-                          ->where('song_id', $song->id)
-                          ->first();
+        // Verifica se já curtiu
+        $likedSong = LikedSong::where('user_id', $user->id)
+                              ->where('song_id', $song->id)
+                              ->first();
 
-    if ($likedSong) {
-        // Descurtir
-        $likedSong->delete();
-        $song->decrement('likes');
+        if ($likedSong) {
+            // Descurtir
+            $likedSong->delete();
+            $song->decrement('likes');
 
-        // Remover da playlist "Curtidas"
-        $playlist = $user->playlists()->where('title', 'Musicas-Curtidas')->first();
-        if ($playlist) {
-            $playlist->removeSong($song); // Usa o método do model Playlist
+            // Remover da playlist "Curtidas"
+            $playlist = $user->playlists()->where('title', 'Curtidas')->first();
+            if ($playlist) {
+                $playlist->songs()->detach($song->id); // Remove relação diretamente
+            }
+
+            return back()->with('success', 'Você descurtiu esta música.');
+        } else {
+            // Curtir
+            LikedSong::create([
+                'user_id' => $user->id,
+                'song_id' => $song->id,
+            ]);
+            $song->increment('likes');
+
+            // Cria ou recupera playlist "Curtidas"
+            $playlist = $user->playlists()->firstOrCreate(
+                ['title' => 'Curtidas'],
+                [
+                    'description' => 'Suas Músicas Curtidas',
+                    'is_public' => false,
+                    'user_id' => $user->id
+                ]
+            );
+
+            // Adiciona música se ainda não estiver
+            if (!$playlist->songs->contains($song->id)) {
+                $playlist->songs()->attach($song->id);
+            }
+
+            return back()->with('success', 'Você curtiu esta música!');
         }
-
-        return back()->with('success', 'Você descurtiu esta música.');
-    } else {
-        // Curtir
-        LikedSong::create([
-            'user_id' => $user->id,
-            'song_id' => $song->id,
-        ]);
-        $song->increment('likes');
-
-        // Cria ou pega a playlist "Curtidas"
-        $playlist = $user->playlists()->firstOrCreate(
-            ['title' => 'Curtidas'],
-            [
-                'description' => 'Suas Músicas Curtidas',
-                'is_public' => false,
-                'user_id' => $user->id
-            ]
-        );
-
-        // Adiciona à playlist usando o método do model
-        if (!$playlist->songs->contains($song->id)) {
-            $playlist->addSong($song);
-        }
-
-        return back()->with('success', 'Você curtiu esta música!');
     }
-}
+
 
 
 
