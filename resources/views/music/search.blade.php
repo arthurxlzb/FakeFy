@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="max-w-2xl px-4 py-10 mx-auto">
-        <h1 class="mb-8 text-3xl font-semibold text-center text-white">Buscar Músicas</h1>
+        <h1 class="mb-8 text-3xl font-semibold text-center text-foreground">Buscar Músicas</h1>
 
         <!-- Campo de busca com autocomplete -->
         <div class="relative">
@@ -10,9 +10,9 @@
                 type="text"
                 id="searchInput"
                 placeholder="Digite o nome da música..."
-                class="w-full px-4 py-3 text-white placeholder-gray-400 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                class="w-full px-4 py-3 border rounded-lg text-foreground placeholder-muted bg-background border-border focus:ring-2 focus:ring-green-500 focus:outline-none"
             >
-            <ul id="autocompleteResults" class="absolute z-10 hidden w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800">
+            <ul id="autocompleteResults" class="absolute z-10 hidden w-full mt-2 overflow-hidden border rounded-lg shadow-xl border-border bg-background text-foreground">
                 <!-- Resultados aqui -->
             </ul>
         </div>
@@ -38,29 +38,29 @@
         let html = '';
 
         if (data.songs.length > 0) {
-            html += `<li class="px-4 py-2 font-semibold text-green-600 dark:text-green-400">Músicas</li>`;
+            html += `<li class="px-4 py-2 font-medium text-green-600 dark:text-green-400">Músicas</li>`;
             data.songs.forEach(song => {
                 html += `
-                    <li class="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="/song/${song.id}" class="block text-gray-800 dark:text-white">${song.title}</a>
+                    <li class="px-4 py-2 transition-colors duration-200 cursor-pointer hover:bg-muted">
+                        <a href="/song/${song.id}" class="block text-foreground hover:underline">${song.title}</a>
                     </li>
                 `;
             });
         }
 
         if (data.albums.length > 0) {
-            html += `<li class="px-4 py-2 mt-2 font-semibold text-blue-600 dark:text-blue-400">Álbuns</li>`;
+            html += `<li class="px-4 py-2 mt-2 font-medium text-blue-600 dark:text-blue-400">Álbuns</li>`;
             data.albums.forEach(album => {
                 html += `
-                    <li class="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="/album/${album.id}" class="block text-gray-800 dark:text-white">${album.title}</a>
+                    <li class="px-4 py-2 transition-colors duration-200 cursor-pointer hover:bg-muted">
+                        <a href="/album/${album.id}" class="block text-foreground hover:underline">${album.title}</a>
                     </li>
                 `;
             });
         }
 
         if (html === '') {
-            html = '<li class="px-4 py-2 text-gray-500 dark:text-gray-400">Nenhum resultado</li>';
+            html = '<li class="px-4 py-2 text-muted-foreground">Nenhum resultado</li>';
         }
 
         resultsList.innerHTML = html;
@@ -73,5 +73,4 @@
         }
     });
 </script>
-
 @endsection

@@ -10,30 +10,32 @@
                 </a>
 
                 {{-- Botão de Menu Expansivo --}}
-                <div class="relative">
-                    <button id="adminMenuBtn" class="flex items-center justify-center w-10 h-10 rounded-md hover:bg-muted focus:outline-none">
-                        <i data-lucide="more-vertical" class="w-5 h-5 text-foreground"></i>
-                    </button>
+<div class="relative">
+    <button id="adminMenuBtn" class="flex items-center justify-center w-10 h-10 rounded-md hover:bg-gray-100 focus:outline-none">
+        <i data-lucide="more-vertical" class="w-5 h-5 text-gray-700"></i>
+    </button>
 
-                    {{-- Menu suspenso (visível apenas no desktop) --}}
-                    <div id="adminMenuDropdown" class="absolute left-0 z-50 hidden w-48 mt-2 border rounded-md shadow-md bg-popover text-popover-foreground border-border">
-                        <ul class="py-2 text-sm">
-                            @auth
-                                @if(auth()->user()->isAdm())
-                                    <li><a href="{{ route('admin.users.index') }}" class="block px-4 py-2 hover:bg-muted">Users</a></li>
-                                    <li><a href="{{ route('admin.singers.index') }}" class="block px-4 py-2 hover:bg-muted">Singers</a></li>
-                                    <li><a href="{{ route('admin.albums.index') }}" class="block px-4 py-2 hover:bg-muted">Albums</a></li>
-                                    <li><a href="{{ route('admin.songs.index') }}" class="block px-4 py-2 hover:bg-muted">Songs</a></li>
-                                    <li><a href="{{ route('playlists.index') }}" class="block px-4 py-2 hover:bg-muted">Playlists</a></li>
-                                @else
-                                    <li><a href="{{ route('search') }}" class="block px-4 py-2 hover:bg-muted">Search</a></li>
-                                    <li><a href="{{ route('playlists.index') }}" class="block px-4 py-2 hover:bg-muted">Playlists</a></li>
-                                    <li><a href="{{ route('profile.edit') }}" class="block px-4 py-2 hover:bg-muted">Perfil</a></li>
-                                @endif
-                            @endauth
-                        </ul>
-                    </div>
-                </div>
+    {{-- Menu suspenso (desktop) --}}
+    <div id="adminMenuDropdown"
+         class="absolute left-0 z-50 hidden w-48 mt-2 text-gray-900 bg-white border border-gray-200 rounded-md shadow-lg">
+        <ul class="py-2 text-sm">
+            @auth
+                @if(auth()->user()->isAdm())
+                    <li><a href="{{ route('admin.users.index') }}" class="block px-4 py-2 hover:bg-gray-100">Users</a></li>
+                    <li><a href="{{ route('admin.singers.index') }}" class="block px-4 py-2 hover:bg-gray-100">Singers</a></li>
+                    <li><a href="{{ route('admin.albums.index') }}" class="block px-4 py-2 hover:bg-gray-100">Albums</a></li>
+                    <li><a href="{{ route('admin.songs.index') }}" class="block px-4 py-2 hover:bg-gray-100">Songs</a></li>
+                    <li><a href="{{ route('playlists.index') }}" class="block px-4 py-2 hover:bg-gray-100">Playlists</a></li>
+                @else
+                    <li><a href="{{ route('search') }}" class="block px-4 py-2 hover:bg-gray-100">Search</a></li>
+                    <li><a href="{{ route('playlists.index') }}" class="block px-4 py-2 hover:bg-gray-100">Playlists</a></li>
+                    <li><a href="{{ route('profile.edit') }}" class="block px-4 py-2 hover:bg-gray-100">Perfil</a></li>
+                @endif
+            @endauth
+        </ul>
+    </div>
+</div>
+
             </div>
 
             {{-- Usuário Autenticado --}}
