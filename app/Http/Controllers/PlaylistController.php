@@ -33,11 +33,15 @@ class PlaylistController extends Controller
     // Garante que is_public será sempre booleano
     $data['is_public'] = $request->has('is_public') && $request->input('is_public');
 
+    // Força que a playlist seja do usuário autenticado
+    $data['user_id'] = auth()->id();
+
     $playlist = Playlist::create($data);
     $playlist->songs()->sync($request->songs ?? []);
 
     return redirect()->route('playlists.index')->with('success', 'Playlist criada com sucesso!');
 }
+
 
 
     public function show(Playlist $playlist)

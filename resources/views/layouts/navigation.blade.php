@@ -28,7 +28,7 @@
                     <li><a href="{{ route('playlists.index') }}" class="block px-4 py-2 hover:bg-gray-100">Playlists</a></li>
                 @else
                     <li><a href="{{ route('search') }}" class="block px-4 py-2 hover:bg-gray-100">Search</a></li>
-                    <li><a href="{{ route('playlists.index') }}" class="block px-4 py-2 hover:bg-gray-100">Playlists</a></li>
+                    <li><a href="{{ route('UserPlaylists') }}" class="block px-4 py-2 hover:bg-gray-100">Playlists</a></li>
                     <li><a href="{{ route('profile.edit') }}" class="block px-4 py-2 hover:bg-gray-100">Perfil</a></li>
                 @endif
             @endauth
@@ -41,7 +41,7 @@
             {{-- Usuário Autenticado --}}
             <div class="relative">
                 @auth
-                    <button id="userDropdownBtn" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg text-foreground bg-muted hover:bg-muted-dark focus:outline-none">
+                    <button id="userDropdownBtn" class="flex items-center px-4 py-2 text-lg font-medium rounded-lg text-foreground bg-muted hover:bg-muted-dark focus:outline-none">
                         <i data-lucide="user" class="w-4 h-4 mr-2"></i> {{ Auth::user()->name }}
                     </button>
                     <div id="userDropdownMenu" class="absolute right-0 hidden w-48 mt-2 text-black bg-white rounded-lg shadow-md dark:bg-gray-800">

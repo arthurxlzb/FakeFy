@@ -3,10 +3,10 @@
 @section('content')
     <div class="container px-6 py-8 mx-auto">
         <!-- Título principal -->
-        <h1 class="mb-8 text-4xl font-bold text-center text-gray-900">Bem-vindo ao Fakefy</h1>
+        <h1 class="mb-8 text-xl font-bold text-center text-gray-900">Bem-vindo ao Fakefy</h1>
 
         <!-- Músicas Populares -->
-        <h2 class="mb-6 text-3xl font-semibold text-gray-800">Músicas Populares</h2>
+        <h2 class="mb-6 text-xl font-semibold text-gray-800">Músicas Populares</h2>
         <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
             @foreach($songs as $song)
                 <div class="p-4 transition-all transform bg-white border border-gray-300 shadow-md rounded-xl hover:scale-105 hover:shadow-lg">
@@ -22,7 +22,7 @@
         <!-- Espaçamento forçado -->
         <div class="pt-24">
             <!-- Álbuns Recentes -->
-            <h2 class="mb-6 text-3xl font-semibold text-gray-800">Álbuns Recentes</h2>
+            <h2 class="mb-6 text-xl font-semibold text-black">Álbuns Recentes</h2>
             <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
                 @foreach($albums as $album)
                     <div class="p-4 transition-all transform bg-white border border-gray-300 shadow-md rounded-xl hover:scale-105 hover:shadow-lg">

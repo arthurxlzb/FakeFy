@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::resource('playlists', PlaylistController::class);
-    Route::get('/playlist', [PlaylistController::class, 'UserPlaylists'])->name('userplaylist');
+    Route::get('/playlist', [PlaylistController::class, 'UserPlaylists'])->name('UserPlaylists');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/music/EditarPerfil', [MusicController::class, 'editProfile'])->name('profile.edit');

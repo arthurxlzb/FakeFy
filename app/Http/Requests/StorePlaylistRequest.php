@@ -18,7 +18,6 @@ class StorePlaylistRequest extends FormRequest
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'is_public' => 'nullable|boolean',
-        'user_id' => 'required|exists:users,id',
         'songs' => 'nullable|array',
         'songs.*' => 'exists:songs,id',
     ];
