@@ -13,8 +13,8 @@ class MusicController extends Controller
     // Método para exibir a página inicial
     public function home()
     {
-        $songs = Song::latest()->take(10)->get();
-        $albums = Album::latest()->take(5)->get();
+        $songs = Song::latest()->take(5)->get();
+        $albums = Album::latest()->take(3)->get();
         return view('music.home', compact('songs', 'albums'));
     }
 

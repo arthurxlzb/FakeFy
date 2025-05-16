@@ -8,6 +8,8 @@ use App\Models\Singer;
 use App\Http\Requests\StoreAlbumRequest;
 use App\Http\Requests\UpdateAlbumRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 class AlbumController extends Controller
 {
@@ -31,20 +33,25 @@ class AlbumController extends Controller
         ]);
     }
 
-    public function store(StoreAlbumRequest $request, Singer $singer = null)
-    {
-        $data = $request->validated();
+   public function store(StoreAlbumRequest $request, Singer $singer = null)
+{
+    $data = $request->validated();
 
-        if ($singer) {
-            $album = $singer->albums()->create($data);
-            return redirect()->route('admin.singers.albums.index', $singer)
-                ->with('success', 'Álbum criado com sucesso!');
-        }
+    // Salva a imagem se ela foi enviada
+    if ($request->hasFile('cover_image')) {
+        $data['cover_image'] = $request->file('cover_image')->store('album_covers', 'public');
+    }
 
-        $album = Album::create($data);
-        return redirect()->route('admin.albums.index')
+    if ($singer) {
+        $singer->albums()->create($data);
+        return redirect()->route('admin.singers.albums.index', $singer)
             ->with('success', 'Álbum criado com sucesso!');
     }
+
+    Album::create($data);
+    return redirect()->route('admin.albums.index')
+        ->with('success', 'Álbum criado com sucesso!');
+}
 
     public function show(Album $album)
     {
@@ -60,12 +67,26 @@ class AlbumController extends Controller
     }
 
     public function update(UpdateAlbumRequest $request, Album $album)
-    {
-        $album->update($request->validated());
+{
+    $data = $request->validated();
 
-        return redirect()->route('admin.albums.index')
-            ->with('success', 'Álbum atualizado com sucesso!');
+    // Se uma nova imagem foi enviada, armazena e atualiza o caminho
+    if ($request->hasFile('cover_image')) {
+    // Remove a imagem antiga se existir
+    if ($album->cover_image && Storage::disk('public')->exists($album->cover_image)) {
+        Storage::disk('public')->delete($album->cover_image);
     }
+
+    $data['cover_image'] = $request->file('cover_image')->store('album_covers', 'public');
+}
+
+
+    $album->update($data);
+
+    return redirect()->route('admin.albums.index')
+        ->with('success', 'Álbum atualizado com sucesso!');
+}
+
 
     public function destroy(Album $album)
     {

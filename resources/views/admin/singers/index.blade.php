@@ -32,6 +32,10 @@
             </thead>
             <tbody>
                 @forelse ($singers as $singer)
+                    @php
+                        $bioModalId = 'bioModal' . $singer->id;
+                        $albumsModalId = 'albumsModal' . $singer->id;
+                    @endphp
                     <tr class="border-b border-gray-700">
                         <td class="px-6 py-3">{{ $singer->name }}</td>
                         <td class="px-6 py-3">{{ $singer->genre }}</td>
@@ -39,28 +43,27 @@
                         <td class="px-6 py-3">{{ $singer->label ?? '-' }}</td>
                         <td class="px-6 py-3">
                             @if($singer->bio)
-                                <div x-data="{ openModal: false }" class="flex items-center gap-2">
-                                    <button @click="openModal = true"
+                                <div x-data="{ {{ $bioModalId }}: false }" class="flex items-center gap-2">
+                                    <button @click="{{ $bioModalId }} = true"
                                         class="px-3 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         Ver Biografia
                                     </button>
 
                                     <!-- Modal Biografia -->
-                                    <div x-show="openModal" x-cloak x-transition
+                                    <div x-show="{{ $bioModalId }}" x-cloak x-transition
                                         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
                                         <div class="w-full max-w-xl p-6 bg-gray-800 rounded-lg shadow-lg">
                                             <h3 class="mb-4 text-lg font-bold text-white">Biografia de {{ $singer->name }}</h3>
                                             <p class="text-white">{{ $singer->bio }}</p>
 
                                             <div class="mt-6 text-right">
-                                                <button @click="openModal = false"
+                                                <button @click="{{ $bioModalId }} = false"
                                                     class="px-4 py-2 text-sm text-white bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
                                                     Fechar
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Fim Modal -->
                                 </div>
                             @else
                                 -
@@ -79,14 +82,14 @@
                             </div>
                         </td>
                         <td class="px-6 py-3">
-                            <div x-data="{ openModal: false }" class="flex items-center gap-2">
-                                <button @click="openModal = true"
+                            <div x-data="{ {{ $albumsModalId }}: false }" class="flex items-center gap-2">
+                                <button @click="{{ $albumsModalId }} = true"
                                     class="px-3 py-1 text-xs text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
                                     Álbuns ({{ $singer->albums->count() }})
                                 </button>
 
                                 <!-- Modal Álbuns -->
-                                <div x-show="openModal" x-cloak x-transition
+                                <div x-show="{{ $albumsModalId }}" x-cloak x-transition
                                     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
                                     <div class="w-full max-w-xl p-6 bg-gray-800 rounded-lg shadow-lg">
                                         <h3 class="mb-4 text-lg font-bold text-white">Álbuns de {{ $singer->name }}</h3>
@@ -108,14 +111,13 @@
                                         </ul>
 
                                         <div class="mt-6 text-right">
-                                            <button @click="openModal = false"
+                                            <button @click="{{ $albumsModalId }} = false"
                                                 class="px-4 py-2 text-sm text-white bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
                                                 Fechar
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Fim Modal -->
                             </div>
                         </td>
                     </tr>
@@ -136,5 +138,4 @@
 
 @endsection
 
-{{-- Inclui o partial dos modais para que os botões funcionem sem deixar o código extenso --}}
-@include('admin.singers.partials.modals')
+{{-- Partial dos modais foi removido porque os modais estão no próprio loop --}}

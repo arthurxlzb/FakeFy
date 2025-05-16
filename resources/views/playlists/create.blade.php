@@ -48,12 +48,12 @@
 
         <div class="flex space-x-8">
             <button type="submit"
-                class="px-6 py-3 text-base font-semibold text-black transition border rounded-lg bg-muted hover:bg-muted/80 border-border">
+                class="px-6 py-3 text-base font-semibold transition border rounded-lg text-primary bg-muted hover:bg-muted/80 border-border">
                 Criar
             </button>
 
-            <a href="{{ route('home') }}"
-                class="px-6 py-3 text-base font-semibold text-black transition border rounded-lg bg-muted hover:bg-muted/80 border-border">
+            <a href="{{ route('UserPlaylists') }}"
+                class="px-6 py-3 text-base font-semibold transition border rounded-lg text-primary bg-muted hover:bg-muted/80 border-border">
                 Voltar
             </a>
         </div>

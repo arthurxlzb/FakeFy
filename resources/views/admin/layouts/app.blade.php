@@ -48,9 +48,10 @@
         <aside class="admin-sidebar">
             <h2 class="mb-6 text-xl font-bold text-center">Administração</h2>
             <a href="{{ route('admin.users.index') }}">Usuários</a>
+            <a href="{{ route('admin.singers.index') }}">Cantores</a>
             <a href="{{ route('admin.songs.index') }}">Músicas</a>
             <a href="{{ route('admin.albums.index') }}">Álbuns</a>
-            <a href="{{ route('playlists.index') }}">Playlists</a>
+            <a href="{{ route('home') }}">Home</a>
         </aside>
 
         <!-- Conteúdo Principal -->

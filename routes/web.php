@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('{playlist}/songs/{song}', [PlaylistController::class, 'removeSong'])->name('remove-song');
     });
 
+    Route::post('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'addSong'])->name('playlists.addSong');
     Route::resource('playlists', PlaylistController::class);
     Route::get('/playlist', [PlaylistController::class, 'UserPlaylists'])->name('UserPlaylists');
 

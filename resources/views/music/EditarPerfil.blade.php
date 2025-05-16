@@ -11,45 +11,45 @@
         @csrf
 
         <div class="space-y-2">
-            <label for="name" class="block text-lg font-medium text-foreground">Nome</label>
+            <label for="name" class="block text-lg font-medium text-white">Nome</label>
             <input
                 type="text"
                 name="name"
                 id="name"
                 placeholder="Seu nome"
                 value="{{ auth()->user()->name }}"
-                class="w-full px-4 py-3 text-lg border rounded-lg bg-muted text-foreground border-border focus:outline-none focus:ring-2 focus:ring-ring"
+                class="w-full px-4 py-3 text-lg border rounded-lg text-primary bg-muted border-border focus:outline-none focus:ring-2 focus:ring-ring"
             >
         </div>
 
         <div class="space-y-2">
-            <label for="email" class="block text-xl font-medium text-foreground">Email</label>
+            <label for="email" class="block text-xl font-medium text-white">Email</label>
             <input
                 type="email"
                 name="email"
                 id="email"
                 placeholder="Seu email"
                 value="{{ auth()->user()->email }}"
-                class="w-full px-4 py-3 text-lg border rounded-lg bg-muted text-foreground border-border focus:outline-none focus:ring-2 focus:ring-ring"
+                class="w-full px-4 py-3 text-lg border rounded-lg text-primary bg-muted border-border focus:outline-none focus:ring-2 focus:ring-ring"
             >
         </div>
 
         <div class="space-y-2">
-            <label for="password" class="block text-xl font-medium text-foreground">Nova Senha</label>
+            <label for="password" class="block text-xl font-medium text-white">Nova Senha</label>
             <input
                 type="password"
                 name="password"
                 id="password"
                 placeholder="Deixe em branco para manter a atual"
-                class="w-full px-4 py-3 text-lg border rounded-lg bg-muted text-foreground border-border focus:outline-none focus:ring-2 focus:ring-ring"
+                class="w-full px-4 py-3 text-lg border rounded-lg bg-muted text-primary border-border focus:outline-none focus:ring-2 focus:ring-ring"
             >
         </div>
 
         <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-            <button type="submit" class="w-full px-6 py-3 text-xl font-medium text-center rounded-lg text-foreground bg-muted hover:bg-muted/80 sm:w-auto">
+            <button type="submit" class="w-full px-6 py-3 text-xl font-medium text-center rounded-lg text-primary bg-muted hover:bg-muted/80 sm:w-auto">
                 Atualizar Perfil
             </button>
-            <a href="{{ route('home') }}" class="w-full px-6 py-3 text-xl font-medium text-center rounded-lg text-foreground bg-muted hover:bg-muted/80 sm:w-auto">
+            <a href="{{ route('home') }}" class="w-full px-6 py-3 text-xl font-medium text-center rounded-lg text-primary bg-muted hover:bg-muted/80 sm:w-auto">
                 Voltar
             </a>
         </div>

@@ -39,7 +39,7 @@
     <div>
         <label for="release_date" class="block mb-2 font-medium text-gray-300">Data de Lançamento *</label>
         <input type="date" id="release_date" name="release_date" required
-               value="{{ old('release_date', (isset($album->release_date) ? $album->release_date->format('Y-m-d') : '')) }}"
+               value="{{ old('release_date', isset($album->release_date) ? $album->release_date->format('Y-m-d') : '') }}"
                class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500">
         @error('release_date')
             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -54,6 +54,15 @@
                 <span class="text-sm text-gray-400">(Deixe em branco para manter a atual)</span>
             @endif
         </label>
+
+        @if(isset($album) && $album->cover_image)
+            <div class="mb-4">
+                <img src="{{ asset('storage/' . $album->cover_image) }}"
+                     alt="Capa atual do álbum"
+                     class="object-cover w-full h-48 mb-2 border border-gray-600 rounded-md">
+            </div>
+        @endif
+
         <input type="file" id="cover_image" name="cover_image" accept="image/*"
                class="w-full text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white focus:ring-2 focus:ring-blue-500">
         @error('cover_image')

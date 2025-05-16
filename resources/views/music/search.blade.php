@@ -10,12 +10,21 @@
                 type="text"
                 id="searchInput"
                 placeholder="Digite o nome da música..."
-                class="w-full px-4 py-4 border rounded-lg text-foreground placeholder-muted bg-background border-border focus:ring-2 focus:ring-green-500 focus:outline-none"
+                class="w-full px-4 py-4 placeholder-gray-500 border rounded-lg text-foreground bg-background border-border focus:ring-2 focus:ring-green-500 focus:outline-none"
             >
             <ul id="autocompleteResults" class="absolute z-10 hidden w-full mt-2 overflow-hidden border rounded-lg shadow-xl border-border bg-background text-foreground">
                 <!-- Resultados aqui -->
             </ul>
         </div>
+
+        {{-- Botão de voltar centralizado --}}
+        <div class="flex justify-center mt-8">
+            <a href="{{ route('home') }}"
+               class="inline-flex items-center px-6 py-3 text-base font-medium rounded-lg bg-backgroud text-primary hover:bg-muted">
+                 Voltar
+            </a>
+        </div>
+
     </div>
 @endsection
 

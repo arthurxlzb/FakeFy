@@ -28,5 +28,13 @@
                 @endforeach
             </div>
         @endif
+
+        {{-- Botão de voltar centralizado --}}
+        <div class="flex justify-center mt-8">
+            <a href="{{ route('home') }}"
+               class="inline-flex items-center px-6 py-3 text-base font-medium rounded-lg bg-backgroud text-primary hover:bg-muted">
+                 Voltar
+            </a>
+        </div>
     </div>
 @endsection

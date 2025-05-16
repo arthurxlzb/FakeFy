@@ -39,7 +39,7 @@ class PlaylistController extends Controller
     $playlist = Playlist::create($data);
     $playlist->songs()->sync($request->songs ?? []);
 
-    return redirect()->route('playlists.index')->with('success', 'Playlist criada com sucesso!');
+    return redirect()->route('UserPlaylists')->with('success', 'Playlist criada com sucesso!');
 }
 
 
@@ -70,14 +70,17 @@ class PlaylistController extends Controller
     public function destroy(Playlist $playlist)
     {
         $playlist->delete();
-        return redirect()->route('playlists.index')->with('success', 'Playlist removida com sucesso!');
+        return redirect()->route('UserPlaylists')->with('success', 'Playlist removida com sucesso!');
     }
 
     public function addSong(Playlist $playlist, Song $song)
-    {
-        $playlist->songs()->attach($song->id);
-        return back()->with('success', 'Música adicionada à playlist!');
-    }
+{
+    // Adiciona a música só se ainda não estiver na playlist
+    $playlist->songs()->syncWithoutDetaching([$song->id]);
+
+    return back()->with('success', 'Música adicionada à playlist!');
+}
+
 
     public function removeSong(Playlist $playlist, Song $song)
     {
