@@ -1,19 +1,13 @@
-# Curso GRATUITO de Laravel 10.x
+# Projeto FakeFy Arthur Barbosa
 
-- :movie_camera: [Acesse o Curso](https://academy.especializati.com.br/curso/laravel-10-gratuito).
-
-
-Links Úteis:
-
-- :tada: [Saiba Mais](https://linktr.ee/especializati)
 
 ## Passo a passo para rodar o projeto
 Clone o projeto
 ```sh
-git clone https://github.com/especializati/curso-de-laravel-10.git laravel-10
+git clone https://github.com/especializati/curso-de-laravel-10.git fakefy
 ```
 ```sh
-cd laravel-10/
+cd fakefy/
 ```
 
 
@@ -25,7 +19,7 @@ cp .env.example .env
 
 Atualize essas variáveis de ambiente no arquivo .env
 ```dosini
-APP_NAME="Especializa Ti"
+APP_NAME="FakeFy"
 APP_URL=http://localhost:8989
 
 DB_CONNECTION=mysql
