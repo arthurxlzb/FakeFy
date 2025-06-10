@@ -7,9 +7,9 @@
 @section('content')
 <div class="p-6 text-white bg-gray-900 rounded-lg shadow-md">
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-semibold">Todas as Músicas</h2>
-        <a href="{{ route('admin.songs.create') }}"
-            class="flex items-center px-4 py-2 font-bold text-white transition duration-300 bg-blue-600 rounded hover:bg-blue-800">
+        <h2 class="text-2xl font-semibold text-indigo-500 dark:text-indigo-400">Todas as Músicas</h2>
+       <a href="{{ route('admin.songs.create') }}"
+            class="flex items-center px-4 py-2 font-bold text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             <i class="mr-2 fa-solid fa-plus"></i> Nova Música
         </a>
     </div>

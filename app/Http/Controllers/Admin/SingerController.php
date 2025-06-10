@@ -6,17 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSingerRequest;
 use App\Http\Requests\UpdateSingerRequest;
 use App\Models\Singer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class SingerController extends Controller
 {
-
     public function __construct()
-{
-    $this->middleware('auth')->except(['index', 'show']); // Protege tudo exceto listagem e detalhes
-}
-
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
 
     public function index()
     {
@@ -30,43 +26,26 @@ class SingerController extends Controller
     }
 
     public function store(StoreSingerRequest $request)
-{
-    Singer::create($request->validated());
-
-    return redirect()
-        ->route('admin.singers.index')
-        ->with('success', 'Cantor cadastrado com sucesso!');
-}
-
-    public function show(string $id)
     {
-        if (!$singer = Singer::find($id)) {
-            return redirect()
-                ->route('singers.index')
-                ->with('error', 'Cantor não encontrado');
-        }
+        Singer::create($request->validated());
 
+        return redirect()
+            ->route('admin.singers.index')
+            ->with('success', 'Cantor cadastrado com sucesso!');
+    }
+
+    public function show(Singer $singer)
+    {
         return view('admin.singers.show', compact('singer'));
     }
 
-    public function edit(string $id)
+    public function edit(Singer $singer)
     {
-        if (!$singer = Singer::find($id)) {
-            return redirect()
-                ->route('singers.index')
-                ->with('error', 'Cantor não encontrado');
-        }
-
         return view('admin.singers.edit', compact('singer'));
     }
 
-    public function update(UpdateSingerRequest $request, string $id)
+    public function update(UpdateSingerRequest $request, Singer $singer)
     {
-        if (!$singer = Singer::find($id)) {
-            return back()
-                ->with('error', 'Cantor não encontrado');
-        }
-
         $singer->update($request->validated());
 
         return redirect()
@@ -74,14 +53,8 @@ class SingerController extends Controller
             ->with('success', 'Cantor atualizado com sucesso!');
     }
 
-    public function destroy(string $id)
+    public function destroy(Singer $singer)
     {
-        if (!$singer = Singer::find($id)) {
-            return redirect()
-                ->route('admin.singers.index')
-                ->with('error', 'Cantor não encontrado');
-        }
-
         $singer->delete();
 
         return redirect()

@@ -7,9 +7,9 @@
     @include('admin.albums.partials.breadcrumb')
 
     <div class="flex items-center justify-between mb-6">
-        <h2 class="text-3xl font-semibold">Álbuns</h2>
+        <h2 class="text-3xl font-semibold text-indigo-500 dark:text-indigo-400">Álbuns</h2>
         <a href="{{ route('admin.albums.create') }}"
-            class="flex items-center px-6 py-3 font-bold text-white transition duration-300 bg-blue-600 rounded-lg hover:bg-blue-700">
+            class="flex items-center px-4 py-2 font-bold text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             <i class="mr-2 fa-solid fa-plus"></i> Novo Álbum
         </a>
     </div>

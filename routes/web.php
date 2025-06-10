@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\{
-    UserController, SingerController, AlbumController, SongController
+    UserController, SingerController, AlbumController
 };
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\MusicController;
 use App\Http\Middleware\CheckIfIsAdmin;
+use App\Http\Controllers\Admin\SongController;
 
 // ------------------------------
 // PÁGINA INICIAL (Pública)

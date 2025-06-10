@@ -21,28 +21,21 @@ class PlaylistController extends Controller
     {
         $users = User::all();
         $songs = Song::all();
-        $playlist = null;
 
-        return view('playlists.create', compact('users', 'songs', 'playlist'));
+        return view('playlists.create', compact('users', 'songs'));
     }
 
     public function store(StorePlaylistRequest $request)
-{
-    $data = $request->validated();
+    {
+        $data = $request->validated();
+        $data['is_public'] = $request->boolean('is_public');
+        $data['user_id'] = auth()->id();
 
-    // Garante que is_public será sempre booleano
-    $data['is_public'] = $request->has('is_public') && $request->input('is_public');
+        $playlist = Playlist::create($data);
+        $playlist->songs()->sync($request->songs ?? []);
 
-    // Força que a playlist seja do usuário autenticado
-    $data['user_id'] = auth()->id();
-
-    $playlist = Playlist::create($data);
-    $playlist->songs()->sync($request->songs ?? []);
-
-    return redirect()->route('UserPlaylists')->with('success', 'Playlist criada com sucesso!');
-}
-
-
+        return redirect()->route('UserPlaylists')->with('success', 'Playlist criada com sucesso!');
+    }
 
     public function show(Playlist $playlist)
     {
@@ -53,13 +46,14 @@ class PlaylistController extends Controller
     {
         $users = User::all();
         $songs = Song::all();
+
         return view('playlists.edit', compact('playlist', 'users', 'songs'));
     }
 
     public function update(UpdatePlaylistRequest $request, Playlist $playlist)
     {
         $data = $request->validated();
-        $data['is_public'] = filter_var($request->input('is_public'), FILTER_VALIDATE_BOOLEAN);
+        $data['is_public'] = $request->boolean('is_public');
 
         $playlist->update($data);
         $playlist->songs()->sync($request->songs ?? []);
@@ -74,13 +68,10 @@ class PlaylistController extends Controller
     }
 
     public function addSong(Playlist $playlist, Song $song)
-{
-    // Adiciona a música só se ainda não estiver na playlist
-    $playlist->songs()->syncWithoutDetaching([$song->id]);
-
-    return back()->with('success', 'Música adicionada à playlist!');
-}
-
+    {
+        $playlist->songs()->syncWithoutDetaching([$song->id]);
+        return back()->with('success', 'Música adicionada à playlist!');
+    }
 
     public function removeSong(Playlist $playlist, Song $song)
     {
@@ -90,11 +81,7 @@ class PlaylistController extends Controller
 
     public function userPlaylists()
     {
-        $user = auth()->user();
-        $playlists = $user->playlists()->latest()->get();
-
+        $playlists = auth()->user()->playlists()->latest()->get();
         return view('music.playlist', compact('playlists'));
     }
-
-
 }

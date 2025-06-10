@@ -17,7 +17,6 @@ use getID3;
 
 class SongController extends Controller
 {
-    // Métodos para rotas independentes
     public function index()
     {
         $songs = Song::with(['singer', 'album'])->latest()->paginate(10);
@@ -35,8 +34,7 @@ class SongController extends Controller
     {
         try {
             $file = $request->file('song_file');
-            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->extension();
-            $path = $file->storeAs('songs', $filename, 'public');
+            $path = $this->storeSongFile($file);
 
             if (!Storage::disk('public')->exists($path)) {
                 throw new \Exception("Arquivo não foi armazenado corretamente");
@@ -63,28 +61,23 @@ class SongController extends Controller
 
     public function edit(Song $song)
     {
-        $album = $song->album; // Certifique-se que a relação 'album' está definida em Song
+        $album = $song->album;
         return view('admin.songs.edit', compact('song', 'album'));
     }
 
     public function update(UpdateSongRequest $request, Song $song)
     {
         try {
-            $data = [
-                'title' => $request->title,
-                'singer_id' => $request->singer_id,
-                'album_id' => $request->album_id,
-                'track_number' => $request->track_number,
-            ];
+            $data = $request->only('title', 'track_number');
+
+            if ($request->has('singer_id') && $request->has('album_id')) {
+                $data = array_merge($data, $request->only('singer_id', 'album_id'));
+            }
 
             if ($request->hasFile('song_file')) {
                 Storage::disk('public')->delete($song->file_path);
-
                 $file = $request->file('song_file');
-                $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->extension();
-                $path = $file->storeAs('songs', $filename, 'public');
-
-                $data['file_path'] = $path;
+                $data['file_path'] = $this->storeSongFile($file);
                 $data['duration'] = $this->getAudioDuration($file);
             }
 
@@ -113,7 +106,6 @@ class SongController extends Controller
         }
     }
 
-    // Métodos para rotas aninhadas (Álbum > Songs)
     public function createFromAlbum(Album $album)
     {
         return view('admin.songs.create', [
@@ -127,8 +119,7 @@ class SongController extends Controller
     {
         try {
             $file = $request->file('song_file');
-            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->extension();
-            $path = $file->storeAs('songs', $filename, 'public');
+            $path = $this->storeSongFile($file);
 
             Song::create([
                 'title' => $request->title,
@@ -161,19 +152,12 @@ class SongController extends Controller
     public function updateFromAlbum(UpdateSongRequest $request, Album $album, Song $song)
     {
         try {
-            $data = [
-                'title' => $request->title,
-                'track_number' => $request->track_number,
-            ];
+            $data = $request->only('title', 'track_number');
 
             if ($request->hasFile('song_file')) {
                 Storage::disk('public')->delete($song->file_path);
-
                 $file = $request->file('song_file');
-                $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->extension();
-                $path = $file->storeAs('songs', $filename, 'public');
-
-                $data['file_path'] = $path;
+                $data['file_path'] = $this->storeSongFile($file);
                 $data['duration'] = $this->getAudioDuration($file);
             }
 
@@ -202,53 +186,31 @@ class SongController extends Controller
         }
     }
 
-    protected function getAudioDuration($file)
-    {
-        try {
-            $getID3 = new \getID3;
-            $fileInfo = $getID3->analyze($file->getPathname());
-
-            if (isset($fileInfo['playtime_string'])) {
-                return $fileInfo['playtime_string'];
-            }
-
-            return '00:00';
-        } catch (\Exception $e) {
-            Log::error('Erro ao obter a duração do áudio: ' . $e->getMessage() . ' | Arquivo: ' . $file->getPathname());
-            return '00:00';
-        }
-    }
-
     public function likeSong(Song $song)
     {
         $user = auth()->user();
 
-        // Verifica se já curtiu
         $likedSong = LikedSong::where('user_id', $user->id)
                               ->where('song_id', $song->id)
                               ->first();
 
         if ($likedSong) {
-            // Descurtir
             $likedSong->delete();
             $song->decrement('likes');
 
-            // Remover da playlist "Curtidas"
             $playlist = $user->playlists()->where('title', 'Curtidas')->first();
             if ($playlist) {
-                $playlist->songs()->detach($song->id); // Remove relação diretamente
+                $playlist->songs()->detach($song->id);
             }
 
             return back()->with('success', 'Você descurtiu esta música.');
         } else {
-            // Curtir
             LikedSong::create([
                 'user_id' => $user->id,
                 'song_id' => $song->id,
             ]);
             $song->increment('likes');
 
-            // Cria ou recupera playlist "Curtidas"
             $playlist = $user->playlists()->firstOrCreate(
                 ['title' => 'Curtidas'],
                 [
@@ -258,7 +220,6 @@ class SongController extends Controller
                 ]
             );
 
-            // Adiciona música se ainda não estiver
             if (!$playlist->songs->contains($song->id)) {
                 $playlist->songs()->attach($song->id);
             }
@@ -267,9 +228,22 @@ class SongController extends Controller
         }
     }
 
+    protected function getAudioDuration($file)
+    {
+        try {
+            $getID3 = new \getID3;
+            $fileInfo = $getID3->analyze($file->getPathname());
 
+            return $fileInfo['playtime_string'] ?? '00:00';
+        } catch (\Exception $e) {
+            Log::error('Erro ao obter a duração do áudio: ' . $e->getMessage() . ' | Arquivo: ' . $file->getPathname());
+            return '00:00';
+        }
+    }
 
-
-
-
+    protected function storeSongFile($file)
+    {
+        $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->extension();
+        return $file->storeAs('songs', $filename, 'public');
+    }
 }

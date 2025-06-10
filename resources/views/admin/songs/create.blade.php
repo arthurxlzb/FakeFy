@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="p-6 text-white bg-gray-900 rounded-lg shadow-md">
-    <h2 class="mb-6 text-2xl font-bold">Adicionar Nova Música</h2>
+    <h2 class="mb-6 text-2xl font-bold text-indigo-500 dark:text-indigo-400">Adicionar Nova Música</h2>
 
     <form method="POST"
         action="{{ isset($album) ? route('admin.albums.songs.store', $album) : route('admin.songs.store') }}"
@@ -84,7 +84,7 @@
         <!-- Botões -->
         <div class="flex justify-end mt-6 space-x-4">
             <button type="submit"
-                class="px-6 py-3 font-semibold text-white transition duration-300 bg-green-600 rounded hover:bg-green-500">
+                class="block w-full p-4 text-center text-white transition-all duration-200 bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 dark:focus:ring-indigo-500">
                 Salvar Música
             </button>
             <a href="{{ isset($album) ? route('admin.albums.show', $album) : route('admin.songs.index') }}"

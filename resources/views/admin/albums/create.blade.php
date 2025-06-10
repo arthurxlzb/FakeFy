@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="flex space-x-4">
-                    <button type="submit" class="flex-1 px-4 py-2 rounded-lg btn-primary">
+                    <button type="submit" class="flex-1 px-4 py-2 text-white transition-all duration-200 bg-indigo-600 rounded-lg btn-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 dark:focus:ring-indigo-500">
                         <i class="mr-2 fas fa-save"></i> Salvar Álbum
                     </button>
                     <a href="{{ isset($singer) ? route('admin.singers.albums.index', $singer) : route('admin.albums.index') }}" class="px-4 py-2 rounded-lg btn-gray">

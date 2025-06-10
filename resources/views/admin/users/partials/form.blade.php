@@ -26,7 +26,7 @@
     <!-- Botões -->
     <div class="grid gap-2 mt-6 md:grid-cols-2">
         <button type="submit"
-                class="w-full px-4 py-2 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700">
+                class="w-full px-4 py-2 font-medium text-white transition-all duration-200 bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 dark:focus:ring-indigo-500">
             {{ isset($user) ? 'Atualizar' : 'Cadastrar' }}
         </button>
 
