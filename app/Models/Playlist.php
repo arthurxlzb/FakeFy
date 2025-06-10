@@ -19,7 +19,7 @@ class Playlist extends Model
         'description',
         'is_public'
     ];
-    
+
 
     // Relacionamentos
     public function user()
