@@ -45,9 +45,18 @@ class Album extends Model
         return sprintf('%02d:%02d', ($seconds / 60) % 60, $seconds % 60);
     }
 
-    public function Albumsliked()
-{
-    return $this->belongsToMany(User::class, 'album_likes')->withTimestamps();
-}
+    
+
+  public function likedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'album_likes')
+                    ->withTimestamps();
+    }
+
+    // Novo método para verificar like
+    public function isLikedBy(User $user): bool
+    {
+        return $this->likedByUsers()->where('user_id', $user->id)->exists();
+    }
 
 }

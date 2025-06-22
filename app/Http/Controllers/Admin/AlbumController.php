@@ -91,31 +91,17 @@ class AlbumController extends Controller
     {
         $user = auth()->user();
 
-        $alreadyLiked = DB::table('album_likes')
-            ->where('user_id', $user->id)
-            ->where('album_id', $album->id)
-            ->first();
-
-        if ($alreadyLiked) {
-            DB::table('album_likes')
-                ->where('user_id', $user->id)
-                ->where('album_id', $album->id)
-                ->delete();
-
+        if ($album->isLikedBy($user)) {
+            $album->likedByUsers()->detach($user->id);
             $album->decrement('likes');
-
-            return back()->with('success', 'Você descurtiu este álbum.');
+            $message = 'Você descurtiu este álbum.';
+        } else {
+            $album->likedByUsers()->attach($user->id);
+            $album->increment('likes');
+            $message = 'Você curtiu este álbum!';
         }
 
-        DB::table('album_likes')->insert([
-            'user_id' => $user->id,
-            'album_id' => $album->id,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        $album->increment('likes');
-
-        return back()->with('success', 'Você curtiu este álbum!');
+        return back()->with('success', $message);
     }
+
 }
