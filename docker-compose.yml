@@ -7,8 +7,8 @@ services:
     working_dir: /var/www
     volumes:
       - ./:/var/www
-      - ./docker/php/custom.ini:/etc/php/7.4/fpm/conf.d/99-custom.ini
-      - ./docker/php/custom.ini:/etc/php/7.4/cli/conf.d/99-custom.ini
+      - ./docker/php/custom.ini:/etc/php/8.3/fpm/conf.d/99-custom.ini
+      - ./docker/php/custom.ini:/etc/php/8.3/cli/conf.d/99-custom.ini
     environment:
       - REDIS_HOST=redis
     depends_on:
@@ -16,7 +16,6 @@ services:
       - redis
     networks:
       - laravel
-    command: sh -c "php artisan storage:link && php-fpm"
 
   nginx:
     image: nginx:alpine
